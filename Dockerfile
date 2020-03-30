@@ -20,4 +20,4 @@ RUN apk add --update --no-cache libc6-compat wget tar && \
     pip3 install -r ./docker-colletor-logs/requirements.txt --user && \
     rm -f ./docker-colletor-logs/requirements.txt
 
-CMD [ "python3", "docker-colletor-logs/filebeat-yml-script.py" ]
+CMD [ "python3", "jgreen117/filebeat-yml-script.py" ]
