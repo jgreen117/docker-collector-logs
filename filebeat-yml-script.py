@@ -156,7 +156,18 @@ def _include_lines():
 
     with open(FILEBEAT_CONF_PATH, "w+") as updated_filebeat_yml:
         yaml.dump(config_dic, updated_filebeat_yml)
+        
+def _multi_line():
+    yaml = YAML()
+    with open(FILEBEAT_CONF_PATH) as filebeat_yaml:
+        config_dic = yaml.load(filebeat_yaml)
+    config_dic["filebeat.inputs"][0]["multiline.pattern"] = os.environ["pattern"]
+    config_dic["filebeat.inputs"][0]["multiline.negate"] = os.environ["negate"]
+    config_dic["filebeat.inputs"][0]["multiline.match"] = os.environ["match"]
 
+
+    with open(FILEBEAT_CONF_PATH, "w+") as updated_filebeat_yml:
+        yaml.dump(config_dic, updated_filebeat_yml)
         
 _is_open()
 _add_shipping_data()
@@ -174,5 +185,7 @@ if "excludeLines" in os.environ:
 
 if "includeLines" in os.environ:
     _include_lines()
+    
+_multi_line()
 
 os.system(f"{os.getcwd()}/filebeat -e -c {FILEBEAT_CONF_PATH}")
